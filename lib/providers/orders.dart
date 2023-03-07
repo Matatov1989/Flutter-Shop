@@ -1,35 +1,13 @@
 import 'package:flutter/foundation.dart';
-import './cart.dart';
-
-
-class OrderItem {
-  final String id;
-  final double amount;
-  final List<CartItem> products;
-  final DateTime dateTime;
-
-  OrderItem({
-    required this.id,
-    required this.amount,
-    required this.products,
-    required this.dateTime
-  });
-}
+import '../models/cart_item.dart';
+import '../models/order_item.dart';
 
 class Orders with ChangeNotifier {
-  List<OrderItem> _orders = [];
+  final List<OrderModel> _orders = [];
+  List<OrderModel> get orders => _orders.toList();
 
-  List<OrderItem> get orders {
-    return [..._orders];
-  }
-
-  void addOrder(List<CartItem> cartProducts, double total) {
-    _orders.insert(0, OrderItem(
-        id: DateTime.now().toString(),
-        amount: total,
-        products: cartProducts,
-        dateTime: DateTime.now()
-    ));
+  void addOrder(List<CartItemModel> cartProducts, double total) {
+    _orders.insert(0, OrderModel(id: DateTime.now().toString(), amount: total, products: cartProducts, dateTime: DateTime.now()));
     notifyListeners();
   }
 }

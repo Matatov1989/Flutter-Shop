@@ -4,17 +4,15 @@ import 'package:provider/provider.dart';
 import '../screens/edit_product_screen.dart';
 import '../providers/products.dart';
 
-
 class UserProductItem extends StatelessWidget {
   final String id;
   final String title;
   final String imageUrl;
 
-  UserProductItem(this.id, this.title, this.imageUrl);
+  const UserProductItem(this.id, this.title, this.imageUrl, {super.key});
 
   @override
   Widget build(BuildContext context) {
-
     final scaffold = ScaffoldMessenger.of(context);
 
     return ListTile(
@@ -22,7 +20,7 @@ class UserProductItem extends StatelessWidget {
       leading: CircleAvatar(
         backgroundImage: NetworkImage(imageUrl),
       ),
-      trailing: Container(
+      trailing: SizedBox(
         width: 100,
         child: Row(
           children: <Widget>[
@@ -30,19 +28,23 @@ class UserProductItem extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pushNamed(EditProductScreen.routeName, arguments: id);
               },
-              icon: Icon(Icons.edit),
+              icon: const Icon(Icons.edit),
               color: Theme.of(context).primaryColor,
             ),
             IconButton(
               onPressed: () async {
-                try{
-                  await Provider.of<Products>(context, listen: false).deleteProduct(id);
-                } catch(error) {
-                  scaffold.showSnackBar(SnackBar(content: Text('Deleted failed!', textAlign: TextAlign.center,)));
+                try {
+                  await Provider.of<ProductsRepository>(context, listen: false).deleteProduct(id);
+                } catch (error) {
+                  scaffold.showSnackBar(const SnackBar(
+                      content: Text(
+                    'Deleted failed!',
+                    textAlign: TextAlign.center,
+                  )));
                 }
               },
-              icon: Icon(Icons.delete),
-              color: Theme.of(context).errorColor,
+              icon: const Icon(Icons.delete),
+              color: Theme.of(context).colorScheme.error,
             )
           ],
         ),

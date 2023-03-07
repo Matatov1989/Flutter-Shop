@@ -11,11 +11,12 @@ class ProductDetailScreen extends StatelessWidget {
 
   static const routeName = '/product-detail';
 
+  const ProductDetailScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final productId = ModalRoute.of(context)?.settings.arguments as String;
-    final loadedProduct =
-        Provider.of<Products>(context, listen: false).findById(productId);
+    final loadedProduct = Provider.of<ProductsRepository>(context, listen: false).findById(productId);
 
     return Scaffold(
       appBar: AppBar(
@@ -24,7 +25,7 @@ class ProductDetailScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Container(
+            SizedBox(
               height: 300,
               width: double.infinity,
               child: Image.network(
@@ -32,13 +33,24 @@ class ProductDetailScreen extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            SizedBox(height: 10,),
-            Text('\$${loadedProduct.price}', style: TextStyle(color: Colors.grey, fontSize: 20),),
-            SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              '\$${loadedProduct.price}',
+              style: const TextStyle(color: Colors.grey, fontSize: 20),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             Container(
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Text(loadedProduct.description, textAlign: TextAlign.center, softWrap: true,)),
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Text(
+                  loadedProduct.description,
+                  textAlign: TextAlign.center,
+                  softWrap: true,
+                )),
           ],
         ),
       ),
