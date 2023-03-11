@@ -72,9 +72,10 @@ class Products with ChangeNotifier {
         'https://tnopis-default-rtdb.europe-west1.firebasedatabase.app/products.json';
     try {
       final response = await http.get(url);
-      print(json.decode(response.body));
-
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      if (extractedData == null) {
+        return;
+      }
       final List<Product> loadedProducts = [];
       extractedData.forEach((prodId, prodData) {
         loadedProducts.add(Product(
